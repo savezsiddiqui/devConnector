@@ -6,7 +6,9 @@ const gravatar = require('gravatar');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const bcrypt = require('bcryptjs');
-// @route   GET api/auth
+
+
+// @route   GET api/users
 // @desc    register user
 // @access   public
 
@@ -15,7 +17,7 @@ router.post('/', [
     check('email', 'please enter a valid email').isEmail(),
     check(
         'password',
-        'please enter an alphanumeric password with at least 8 characters'
+        'please enter a password with at least 8 characters'
     )
         .isLength({ min: 8 })
 ],
