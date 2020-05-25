@@ -5,6 +5,7 @@ const Profile = require('../../model/Profile');
 const User = require('../../model/User');
 const axios = require('axios');
 const config = require('config');
+const normalize = require('normalize-url');
 const { check, validationResult } = require('express-validator');
 
 // @route   GET api/profile/me
@@ -40,7 +41,7 @@ router.post('/', [auth, [
         const errors = validationResult(req);
 
         if (!errors.isEmpty()) {
-            res.status(400).json({ errors: errors.array() });
+            return res.status(400).json({ errors: errors.array() });
         }
 
         const {
@@ -59,25 +60,27 @@ router.post('/', [auth, [
         } = req.body;
 
         // build profileFields properties
-        const profileFields = {};
-        profileFields.user = req.user.id;
-        if (company) profileFields.company = company;
-        if (website) profileFields.website = website;
-        if (bio) profileFields.bio = bio;
-        if (location) profileFields.location = location;
-        if (status) profileFields.status = status;
-        if (githubusername) profileFields.githubusername = githubusername;
-        if (skills) {
-            profileFields.skills = skills.split(',').map(skill => skill.trim());
-        }
+        const profileFields = {
+            user: req.user.id,
+            company,
+            location,
+            website: website === '' ? '' : normalize(website, { forceHttps: true }),
+            bio,
+            skills: Array.isArray(skills)
+                ? skills
+                : skills.split(',').map((skill) => skill.trim()),
+            status,
+            githubusername
+        };
 
-        // build PRofileFields.social properties
-        profileFields.social = {};
-        if (youtube) profileFields.social.youtube = youtube;
-        if (linkedin) profileFields.social.linkedin = linkedin;
-        if (facebook) profileFields.social.facebook = facebook;
-        if (twitter) profileFields.social.twitter = twitter;
-        if (instagram) profileFields.social.instagram = instagram;
+        // Build social object and add to profileFields
+        const socialfields = { youtube, twitter, instagram, linkedin, facebook };
+
+        for (const [key, value] of Object.entries(socialfields)) {
+            if (value && value.length > 0)
+                socialfields[key] = normalize(value, { forceHttps: true });
+        }
+        profileFields.social = socialfields;
 
 
         try {
