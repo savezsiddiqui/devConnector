@@ -10,7 +10,7 @@ const normalize = require('normalize-url');
 
 // @route   GET api/users
 // @desc    register user
-// @access   public
+// @access  public
 
 router.post('/', [
     check('name', 'name is required').not().isEmpty(),
