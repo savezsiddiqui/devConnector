@@ -13,6 +13,8 @@ import setAuthToken from './utils/setAuthToken';
 import Dashboard from './components/dashboard/Dashboard';
 import PrivateRoute from './components/routing/PrivateRoute';
 import ProfileForm from './components/profile-forms/ProfileForm';
+import AddEducation from './components/profile-forms/AddEducation';
+import AddExperience from './components/profile-forms/AddExperience';
 
 const App = () => {
 
@@ -35,6 +37,8 @@ const App = () => {
               <PrivateRoute exact path='/dashboard' component={Dashboard} />
               <PrivateRoute exact path='/create-profile' component={ProfileForm} />
               <PrivateRoute exact path='/edit-profile' component={ProfileForm} />
+              <PrivateRoute exact path='/add-education' component={AddEducation} />
+              <PrivateRoute exact path='/add-experience' component={AddExperience} />
             </Switch>
           </section>
         </Fragment>
