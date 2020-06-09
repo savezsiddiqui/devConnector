@@ -1,6 +1,4 @@
 import axios from 'axios';
-import store from '../store';
-import { LOGOUT, CLEAR_PROFILE } from '../actions/types';
 
 const api = axios.create({
     baseURL: '/api',
