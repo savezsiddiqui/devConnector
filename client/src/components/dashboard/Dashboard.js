@@ -16,7 +16,7 @@ const Dashboard = ({
 }) => {
 
     useEffect(() => {
-        getCurrentProfile();
+        if (isAuthenticated) getCurrentProfile();
     }, [isAuthenticated, getCurrentProfile]);
 
     return loading && profile === null ? <Spinner /> :

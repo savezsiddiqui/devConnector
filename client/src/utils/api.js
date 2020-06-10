@@ -1,4 +1,6 @@
 import axios from 'axios';
+import store from '../store';
+import { LOGOUT, CLEAR_PROFILE } from '../actions/types';
 
 const api = axios.create({
     baseURL: '/api',
@@ -18,8 +20,8 @@ api.interceptors.response.use(
     res => res,
     err => {
         if (err.response.data.msg === 'Token is not valid') {
-            // store.dispatch({ type: LOGOUT });
-            // store.dispatch({ type: CLEAR_PROFILE });
+            store.dispatch({ type: CLEAR_PROFILE });
+            store.dispatch({ type: LOGOUT });
         }
         return Promise.reject(err);
     }
