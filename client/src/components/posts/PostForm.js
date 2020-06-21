@@ -8,7 +8,7 @@ const PostForm = ({ addPost }) => {
 
     return (
         <div className='post-form'>
-            <div className='bg-primary p-1'>
+            <div className='bg-primary p'>
                 <h3>Say Something...</h3>
             </div>
             <form

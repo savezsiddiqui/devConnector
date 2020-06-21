@@ -7,14 +7,7 @@
   --success-color: #28a745;
 }
 
-@font-face {
-  font-family: 'Raleway';
-  font-style: normal;
-  font-weight: 400;
-  src:
-    local('Raleway-Regular'),
-    url(./fonts/Raleway-Regular.ttf) format('truetype');
-}
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;700&display=swap");
 
 * {
   box-sizing: border-box;
