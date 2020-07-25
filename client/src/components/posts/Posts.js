@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getPosts } from '../../actions/post';
@@ -12,6 +12,13 @@ const Posts = ({ post: { posts, loading }, getPosts, isAuthenticated }) => {
         if (isAuthenticated) getPosts();
     }, [isAuthenticated, getPosts]);
 
+    const [searchTerm, setSearchTerm] = useState('');
+    posts = posts.filter(({text}) => {
+        let t = text.toLowerCase();
+        let s = searchTerm.toLowerCase();
+        return t.includes(s);
+    });
+
     return loading ? <Spinner /> :
         <>
             <h1 className="large text-primary">Posts</h1>
@@ -19,6 +26,18 @@ const Posts = ({ post: { posts, loading }, getPosts, isAuthenticated }) => {
                 <i className="fas fa-user" /> Welcome to the community
             </p>
             <PostForm />
+
+            <div className='form'>
+                <div className='form-group'>
+                    <input
+                        type='text'
+                        value={searchTerm}
+                        onChange={(e) => { setSearchTerm(e.target.value) }}
+                        placeholder='Search Posts by text'
+                    />
+                </div>
+            </div>
+
             <div className="posts">
                 {posts.map((post) => (
                     <PostItem key={post._id} post={post} />

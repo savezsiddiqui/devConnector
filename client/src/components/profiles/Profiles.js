@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getProfiles } from '../../actions/profile';
@@ -9,6 +9,15 @@ const Profiles = ({ profile: { profiles, loading }, getProfiles }) => {
     useEffect(() => {
         getProfiles();
     }, [getProfiles]);
+
+    // console.log(profiles);
+    const [searchTerm, setSearchTerm] = useState('');
+    profiles = profiles.filter(({ user: { name } }) => {
+        let n = name.toLowerCase();
+        let s = searchTerm.toLowerCase();
+        return n.includes(s);
+    });
+
     return (
         <>
             {loading ? <Spinner /> :
@@ -18,6 +27,19 @@ const Profiles = ({ profile: { profiles, loading }, getProfiles }) => {
                         <i className='fab fa-connectdevelop'></i>
                         Browse and connect with developers.
                     </p>
+
+                    <div className='form'>
+                        <div className='form-group'>
+                            <input
+                                type='text'
+                                value={searchTerm}
+                                onChange={(e) => { setSearchTerm(e.target.value) }}
+                                placeholder='Search Profiles'
+                            />
+                        </div>
+                    </div>
+
+
                     <div className='profiles'>
                         {profiles.length > 0 ? (
                             profiles.map((profile) => (
